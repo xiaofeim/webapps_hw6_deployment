@@ -65,7 +65,7 @@ steps:
 - script: |
     git config --global user.email "xiaofeim@andrew.cmu.edu"
     git config --global user.name "xiaofeim"
-    git add .
+    git add .gitignore 
     git commit -m "pipeline deployment"
     git push https://xiaofeim:$(GITPASS)@xiaofeimhw6.scm.azurewebsites.net/xiaofeimHW6.git master:master
   displayName: 'Deployment'
