@@ -1,0 +1,25 @@
+{% extends "base_log.html" %}
+
+{% block title %} Register  {% endblock %}
+
+{% block h3 %} Welcome！ {% endblock h3 %}
+
+{% block div %}
+
+       <form action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+            {% for field in form_obj %}
+                <div class = "form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <span class = "error">{{ field.errors.0 }}</span>
+                </div>
+            {% endfor %}
+            <br>
+            <input id="register_submit" class="btn btn-primary pull-center" type="submit" name ="btn" value="Sign Up">   
+            {% if error_msg %}
+                    <div class="alert alert-warning">{{ error_msg }}</div>
+            {% endif %}
+        </form>
+
+{% endblock div %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %} Edit The Store {% endblock %}
+
+{% block h3 %} Edit The Store {% endblock h3 %}
+
+{% block div %}
+
+<form action="{% url 'edit_store' %}?id={{store.id}}" method="POST">
+    {% csrf_token %}
+    <div class="row">
+        <label class="col-md-2">Global Menu </label>
+        {{ form_obj.global_menu }}
+    </div>  
+    <br>
+
+    <div class="row">
+        <label class="col-md-2">Restaurant ID</label>
+        <input type="text" class="col-md-3" name="resID" value="{{store.id}}" readonly="readonly">
+    </div>
+    <br>
+
+    <div class="row">
+        <label class="col-md-2">Location </label>
+        {{ form_obj.restauran_location }}
+    </div>
+    <br>
+    <div class="row col-md-3">
+        <input id="submit_store" class="btn btn-success pull-center" type="submit" value="Submit">
+    </div>
+</form>
+
+{% endblock div %}

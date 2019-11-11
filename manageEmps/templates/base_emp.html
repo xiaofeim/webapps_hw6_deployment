@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block div %} 
+{% block form_action %} <form> {% endblock form_action %}
+    {% csrf_token %}
+    <div class="row">
+        <label class="col-md-2">
+            {% block label1 %}  {% endblock label1 %}
+        </label>
+        {% block input1 %}  {% endblock input1 %}
+     </div>
+     <br>
+     <div class="row">
+        <label class="col-md-2">
+            {% block label2 %}  {% endblock label2 %}
+        </label>
+        {% block field %}  {% endblock field %}
+    </div>
+    <br>
+    {% block div_row1 %}  {% endblock div_row1 %}
+    <br>
+    {% block div_row2 %}  {% endblock div_row2 %}
+    <br>
+    <div class="row col-md-3">
+        <input id="btn_add" class="btn btn-success pull-center" type="submit" name="btn" value="Save And Submit">
+    </div>
+</form>
+{% endblock div %}

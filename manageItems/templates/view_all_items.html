@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %} View The Menu  {% endblock %}
+
+{% block h3 %} View All Items {% endblock h3 %}
+
+{% block div %}
+  <div class="row">
+    <a id="dashboard_item" href="{% url 'dashboard' %} " class="btn">
+        Return To The Dashboard
+    </a>
+  </div>
+  <br>
+    <div class="row text-left ">
+        <a id="add_item" href="{% url 'add_iteminfo' %} " class="btn">
+            Add A New Item To The Menu
+        </a>
+    </div>
+
+
+<div class="table-responsive row">
+    {% if latest_item_list %}
+    <table id="item_table" class="table table-striped">
+      <caption class="text-center">
+        <h4>Menu Item</h4>
+      </caption>
+      <thead>
+        <tr>
+          <th>Item Picture</th>
+          <th>Item Id</th>
+          <th>Item Name</th>
+          <th>Item Description</th>
+          <th>Item Price</th>
+          <th>Operation</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for item in latest_item_list %}
+        <tr>
+          <td><img src="/media/{{ item.item_img }}" alt="" height="100" width="110"></td>
+          <td>{{ item.id }}</td>
+          <td>{{ item.item_name }}</td>
+          <td>{{ item.item_description }}</td>
+          <td>{{ item.item_price }}</td>
+          <td><a id="edit_iteminfo" href="{% url 'edit_iteminfo' %}?id={{item.id}}">Edit</a>
+            <a id="delete_iteminfo" href="{% url 'delete_iteminfo' %}?id={{item.id}}">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>No Menu Items are available.</p>
+    {% endif %}
+  </div>
+</div>
+
+
+{% endblock div %}

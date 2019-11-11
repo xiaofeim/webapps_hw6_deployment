@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %} Dashboard  {% endblock %}
+
+{% block h3 %} DashBoard {% endblock h3 %}
+
+{% block div %}
+
+  {% if not request.session.is_login %} 
+  <div class="row">
+    <a href="{% url 'iteminfo' %}">View The Menu</a>
+  </div>
+  <br>
+
+  {% elif request.session.customer %} 
+  <div class="row">
+    <a id="placeAnOrder" href="/placeAnOrder" class="btn">
+        Choose Items And Place an order
+    </a>
+  </div>
+  <br>
+  
+  {% elif request.session.manager %} 
+
+  <div class="row">
+    <a id="manageManager" href="/manageManager" class="btn">
+        Manage The Manager
+    </a>
+  </div>
+  <br>
+  <br>
+  <div class="row">
+    <a id="manageEmployee" href="/manageEmployee" class="btn">
+        Manage The Employee
+    </a>
+  </div>
+  <br>
+  <div class="row">
+    <a id="manageItems" href="/manageItems" class="btn"> 
+        Manage The Menu Items
+    </a>
+  </div>
+  <br>
+  <div class="row">
+      <a id="manageStores" href="/manageStores" class="btn"> 
+          Manage The Restaurants
+      </a>
+  </div>
+  <br>
+  <div class="row">
+    <a id="manageOrders" href="/manageOrders" class="btn">
+        View The Submitted Orders
+    </a>
+  </div>
+  <br>
+
+  {% elif request.session.employee %}
+  <div class="row">
+    <a id="manageOrders" href="/manageOrders" class="btn">
+        View The Submitted Orders
+    </a>
+  </div>
+  <br>
+
+  {% endif %}
+
+{% endblock div %}

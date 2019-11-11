@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+
+{% block div %}
+<div class="row">
+    <a href="{% url 'dashboard' %}" class="btn">Return To Dashboard</a>
+    <br>
+    {% block div_row %}
+    {% endblock div_row %}
+</div>
+
+{% block form_action %} <form>{% endblock form_action %}
+{% csrf_token %}
+
+<div class="table-responsive row">
+    <table class="table table-striped">
+        <caption class="text-center">
+            {% block table_caption %}
+            {% endblock table_caption %}
+        </caption>
+        <thead>
+            <tr class="text-center">
+                {% block table_tr %}
+                {% endblock table_tr %}
+            </tr>
+        </thead>
+        <tbody>
+            {% block table_tbody %}
+            {% endblock table_tbody %}
+        </tbody>
+    </table>
+
+</div>
+{% block total_price %}
+{% endblock total_price %}
+</form>
+
+
+{% endblock div %}
+
+{% block jscode %}<script> </script>{% endblock jscode %} 

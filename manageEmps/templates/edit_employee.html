@@ -1,0 +1,62 @@
+{% extends "base_emp.html" %}
+
+{% block title %} Edit The Employee {% endblock %}
+
+{% block h3 %} Edit Employee's infomation and Working Location {% endblock h3 %}
+
+{% block form_action %}
+<form action="{% url 'edit_employee' %}?id={{e.id}}" method="POST">
+{% endblock form_action %}
+  
+    {% block label1 %}
+    Employee ID
+    {% endblock label1 %}
+    {% block input1 %}
+    <input type="text" class="col-md-8" name="eID" value="{{e.id}}" readonly="readonly">
+    {% endblock input1 %}
+
+    {% block label2 %}
+    Employee Name
+    {% endblock label2 %}
+
+    {% block field %}
+    <input type="text" class="col-md-8" name="ename" value="{{e.e_name}}" readonly>
+    {% endblock field %}
+
+    {% block div_row1 %}
+    <div class="row ">
+        <label class="col-md-3">Working Location </label>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        {% for store in e.restaurant.all %}
+                            {{store.restauran_location}}<br>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {% endblock div_row1 %}
+
+    {% block div_row2 %}
+    <div class="row">
+        <label class="col-md-3">
+            Add A New Working Location
+        </label>
+
+        <select name="res" multiple class="col-md-3">
+            {% for res in store_list %}
+            <option value='{{ res.id }}'>
+                {{ res.restauran_location}}
+            </option>
+            {% endfor %}
+        </select>
+        <p class="text-danger col-md-8"><strong>{{error_msg_location}} </strong> </p>
+
+    </div>
+
+
+    {% endblock div_row2 %}

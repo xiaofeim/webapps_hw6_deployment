@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %} Manage Manager And Store Relationships {% endblock %}
+
+{% block h3 %} Manage Manager And Store Relationships {% endblock h3 %}
+
+{% block div %}
+<div class="row">
+    <a id="dashboard_mag" href="{% url 'dashboard' %} " class="btn">
+        Return To The Dashboard
+    </a>
+    <a id="add_manager" href="{% url 'add_manager' %} " class="btn">
+        Add A New Manager
+    </a>
+</div>
+<form>
+    {% csrf_token %}
+    <div class="table-responsive row">
+        <table id="mag_table"class="table table-striped">
+            <caption class="text-center">Manager Lists</caption>
+            <thead>
+                <tr class="text-center">
+                    <th>Manager ID</th>
+                    <th>Manager Name</th>
+                    <th>Restaurant Location</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in manager_list %}
+                <tr>
+                    <td> {{m.id}} </td>
+                    <td> {{m.m_name}} </td>
+                    <td>
+                        {% for store in m.restaurant.all %}
+                        {{store.restauran_location}}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a id="edit_manager" href="{% url 'add_store_manager' %}?id={{m.id}}" class="btn">Edit Manager</a>
+                        <a id="remove_store_manager" href="{% url 'remove_store_manager' %}?id={{m.id}}" class="btn">Remove Working Location</a>
+                        <a id="delete_manager" href="{% url 'delete_manager' %}?id={{m.id}}" class="btn"> Delete Manager </a>
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</form>
+
+{% endblock div %}
+

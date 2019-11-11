@@ -1,0 +1,25 @@
+{% extends "base_log.html" %}
+
+{% block title %} Log In  {% endblock %}
+
+{% block h3 %} Welcome！ {% endblock h3 %}
+
+{% block div %}
+    <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+            <div class="row">
+                <label class="col-md-2">User Name</label>
+                {{form_obj.username}}
+            </div>
+            <br>
+            <div class="row">
+                <label class="col-md-2">Password</label>
+                {{form_obj.password}}
+            </div>
+            <br>
+            <input id="login_submit" class="btn btn-primary pull-center" type="submit" name ="btn" value="Log In">   
+            {% if error_msg %}
+                    <div class="alert alert-warning">{{ error_msg }}</div>
+            {% endif %}
+    </form>
+{% endblock div %}

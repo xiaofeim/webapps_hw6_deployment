@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %} Manage Restaurants {% endblock %}
+
+{% block h3 %} Manage Restaurants {% endblock h3 %}
+
+{% block div %}
+<div class="row">
+    <a id="dashboard_store" href="{% url 'dashboard' %} " class="btn">
+        Return To The Dashboard
+    </a>
+    <a id="add_store" href="{% url 'add_store' %} " class="btn">
+        Add A New Store
+    </a>
+</div>
+<form>
+    {% csrf_token %}
+    <div class="table-responsive row">
+        <table id="table_store" class="table table-striped">
+            <caption class="text-center">Restaurant List</caption>
+            <thead>
+                <tr>
+                    <th>Restaurant ID</th>
+                    <th>Restaurant Location</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in store_list %}
+                <tr>
+                    <td> {{item.id}} </td>
+                    <td> {{item.restauran_location}} </td>
+                    <td>
+                        <a href="{% url 'edit_store' %}?id={{item.id}}" class="btn">Edit</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'delete_store' %}?id={{item.id}}" class="btn">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</form>
+
+{% endblock div %}

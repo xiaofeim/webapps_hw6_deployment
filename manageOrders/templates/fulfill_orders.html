@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %} Fulfill Orders {% endblock %}
+
+{% block h3 %} Fulfill Orders {% endblock h3 %}
+
+
+{% block div %}
+<form action="{% url 'edit_submitted_orders' %}?id={{order.id}}" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label class="col-md-2">Order ID </label>
+        <input type="text" name="orderId" value="{{ order.id }}" readonly="readonly">
+    </div>
+    <div class="form-group">
+        <label class="col-md-2">Modified Time </label>
+        <input type="text" name="pubdate" value="{{ order.modify_date }}" readonly="readonly">
+    </div>
+
+    {% for field in form_obj %}
+    <div class = "form-group">
+        <label for="{{ field.id_for_label }}" class="col-md-2">{{ field.label }}</label>
+        {{ field }}
+        <span class = "error">{{ field.errors.0 }}</span>
+
+    </div>
+    {% endfor %}
+
+    <br>
+    <div class="row col-md-2">
+        <input id="save_sub_order" class="btn btn-success pull-center" type="submit" value="save">
+    </div>
+
+
+</form>
+
+{% endblock div %}

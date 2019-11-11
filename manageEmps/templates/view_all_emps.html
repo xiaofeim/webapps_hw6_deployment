@@ -1,0 +1,40 @@
+{% extends "view_emp_view.html" %}
+
+{% block title %} Manage Employee And Store Relationships {% endblock %}
+
+{% block h3 %} Manage Employee And Store Relationships {% endblock h3 %}
+
+{% block div_row %}
+    <a id="add_employee" href="{% url 'add_employee' %} " class="btn">
+        Add A New Employee
+    </a>
+{% endblock div_row %}
+
+{% block table_caption %} Employee List {% endblock table_caption %}
+
+{% block table_tr %}
+    <th>Employee ID</th>
+    <th>Employee Name</th>
+    <th>Restaurant Location</th>
+    <th>Operation</th>
+{% endblock table_tr %}
+
+{% block table_tbody %}
+    {% for e in employee_list %}
+    <tr>
+        <td> {{e.id}} </td>
+        <td> {{e.e_name}} </td>
+        <td>
+            {% for store in e.restaurant.all %}
+            {{store.restauran_location}}<br>
+            {% endfor %}
+        </td>
+        <td>
+            <a id="edit_employee" href="{% url 'edit_employee' %}?id={{e.id}}" class="btn">Edit Employee</a>
+            <a id="edit_res" href="{% url 'remove_store_employee' %}?id={{e.id}}" class="btn">Remove Working Location</a>
+            <a id="delete_employee" href="{% url 'delete_employee' %}?id={{e.id}}" class="btn"> Delete Employee </a>
+        </td>
+    </tr>
+    {% endfor %}
+
+{% endblock table_tbody %}

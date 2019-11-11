@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %} Add The Item  {% endblock %}
+
+
+
+{% block h3 %} Add The Menu Item {% endblock h3 %}
+
+{% block div %}
+
+<form action="{% url 'add_iteminfo' %}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="row">
+    <label class="col-md-2">Global Menu </label>
+    {{ form_obj.global_menu }}
+  </div>  
+  <br>
+  <div class="row">
+      <label class="col-md-2">Item Name </label>
+      {{ form_obj.item_name }}
+  </div>
+  <br>
+  <div class="row">
+          <label class="col-md-2">Item Description</label>
+          {{ form_obj.item_description }}
+  </div>
+  <br>
+  <div class="row">
+          <label class="col-md-2">Item Price</label>
+          {{ form_obj.item_price }}
+  </div>
+  <br>
+  <div class="row">
+          <label class="col-md-2">Item Img</label>
+          {{ form_obj.item_img }}
+  </div>
+  <br>
+  <div class="row col-md-2">
+      <input id="btn_item" class="btn btn-success pull-center" type="submit" name ="btn" value="Add">    
+  </div>
+ 
+</form>
+
+{% endblock div %}
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+    <title>{% block title %} Base Page {% endblock title %}</title>
+    
+</head>
+<body>
+    <div class="container">
+        
+        <h3 class="text-center"> 
+            {% block h3 %} Base Page {% endblock h3 %}
+        </h3>
+        <br>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+              <div class="collapse navbar-collapse" id="my-nav">
+               
+                <ul class="nav navbar-nav navbar-right">
+                  {% if request.session.is_login %} 
+                  <li><a href="#">User Name : {{ request.session.user_name }}</a></li>
+                  <li><a id="logout" href="{% url 'logout' %}"> Log Out</a></li>
+                  {% else %}
+                  <li><a id ="login" href="{% url 'login' %}">Log In</a></li>
+                  <li><a id ="register" href="{% url 'register' %}">Register</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+          </nav>
+        
+        {% block div %} {% endblock div %}
+    </div>
+    {% block jscode %}<script> </script>{% endblock jscode %} 
+</body>
+</html>

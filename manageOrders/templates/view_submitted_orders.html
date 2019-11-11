@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %} View All Submitted Orders {% endblock %}
+
+{% block h3 %} View All Submitted Orders {% endblock h3 %}
+
+{% block div %}
+
+<div class="row">
+    <a id="dashboard_sub_orders" href="{% url 'dashboard' %} " class="btn">Return To The Dashboard</a>
+</div>
+<input id="session_name" type="text" value="{{request.session.user_name}}" hidden />
+<br>
+<br>
+<form>
+    {% csrf_token %}
+    <div class="table-responsive row">
+        <table id="table" class="table table-striped">
+            <caption class="text-center">Submitted Order Lists</caption>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Item Name</th>
+                    <th>Item Qty</th>
+                    <th>Restaurant</th>
+                    <th>Total Price</th>
+                    <th>Customer Name</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="order_table">
+                {% for order in latest_item_list %}
+                <tr>
+                    <td> {{order.id}} </td>
+                    <td>
+                        {% for c in order.cart.all %}
+                        {{c.item.item_name}}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for c in order.cart.all %}
+                        {{c.item_qty}}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {{order.restaurant}}<br>
+                    </td>
+                    <td>
+                        {{order.total_price}}<br>
+                    </td>
+                    <td>
+                        {{order.customer_name}}<br>
+                    </td>
+                    <td>
+                        {{order.status}}<br>
+                    </td>
+                    <td>
+                        <a href="{% url 'edit_submitted_orders' %}?id={{order.id}}" class="btn">Edit</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'delete_submitted_orders' %}?id={{order.id}}" class="btn">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% endblock div %}
+    {% block jscode %}
+    <script>
+        var count = 0;
+        var index = 0;
+        var order_id_list = new Array();
+        {% for order in latest_item_list %}
+        count++;
+        {% endfor %}
+        {% for order in latest_item_list %}
+        if (index < count) {
+            order_id_list[index] = {{ order.id }
+        };
+        index++;
+            }
+        {% endfor %}
+
+        $(document).ready(function () {
+            setInterval("updateOrders()", 5000);
+        });
+        function updateOrders() {
+            var username = document.getElementById("session_name").value;
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": $.cookie('csrftoken')
+                },
+                url: '/update_orders',
+                type: 'POST',
+                data: {
+                    'user_name': username,
+                    'order_id_list': JSON.stringify(order_id_list)
+                },
+                success: function (arg) {
+                    var order_lists = JSON.parse(arg.order_lists);
+                    var count = arg.count;
+                    var res_list = arg.res_list;
+                    var item_list = arg.item_list;
+                    var item_count = arg.item_count;
+                    var qty_count = arg.qty_count;
+                    var qty_list = arg.qty_list;
+                    if (order_lists != '') {
+                        for (var i = 0; i < count; i++) {
+                            var orderId = order_lists[i].pk;
+                            var totalPrice = order_lists[i].fields.total_price;
+                            var cusName = order_lists[i].fields.customer_name;
+                            var status = order_lists[i].fields.status;
+                            var location = res_list[i];
+
+                            var table = document.getElementById("order_table");
+                            var newRow = document.createElement("tr");
+                            // Order ID
+                            var td1 = document.createElement("td");
+                            td1.innerHTML = orderId;
+                            // Item Name
+                            var td2 = document.createElement("td");
+                            for (var i = 0; i < item_count; i++) {
+                                td2.innerHTML += item_list[i];
+                                td2.innerHTML += '<br/>';
+                            }
+                            // Item Qty
+                            var td3 = document.createElement("td");
+                            for (var i = 0; i < qty_count; i++) {
+                                td3.innerHTML += qty_list[i];
+                                td3.innerHTML += '<br/>';
+                            }
+                            // Restaurant
+                            var td4 = document.createElement("td");
+                            td4.innerHTML = res_list;
+                            // Total Price
+                            var td5 = document.createElement("td");
+                            td5.innerHTML = totalPrice;
+                            // Customer Name
+                            var td6 = document.createElement("td");
+                            td6.innerHTML = cusName;
+                            // Status
+                            var td7 = document.createElement("td");
+                            td7.innerHTML = status;
+                            // Operation
+                            var td8 = document.createElement("td");
+                            td8.innerHTML = '<a id="edit" class="btn"> Edit </a>';
+                            var td9 = document.createElement("td");
+                            td9.innerHTML = '<a id="delete" class="btn"> Delete </a>';
+
+                            newRow.appendChild(td1);
+                            newRow.appendChild(td2);
+                            newRow.appendChild(td3);
+                            newRow.appendChild(td4);
+                            newRow.appendChild(td5);
+                            newRow.appendChild(td6);
+                            newRow.appendChild(td7);
+                            newRow.appendChild(td8);
+                            newRow.appendChild(td9);
+
+                            table.appendChild(newRow);
+
+                            var href_edit = "{% url 'edit_submitted_orders' %}?id=" + parseInt(orderId);
+                            document.getElementById("edit").setAttribute("href", href_edit);
+                            var href_delete = "{% url 'delete_submitted_orders' %}?id=" + parseInt(orderId);
+                            document.getElementById("delete").setAttribute("href", href_delete);
+
+                            order_id_list.push(parseInt(orderId));
+                        }
+                    }
+                },
+                error: function () {
+                    alert("Error")
+                }
+            });
+        }
+    </script>
+    {% endblock jscode %}

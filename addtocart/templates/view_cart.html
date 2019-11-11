@@ -1,0 +1,107 @@
+{% extends "base_menu.html" %}
+
+{% block title %} View Your Cart {% endblock %}
+
+{% block h3 %} View Your Cart {% endblock h3 %}
+
+
+{% block div_row %}
+<a href="{% url 'iteminfo' %} " class="btn">Return To The Menu</a>
+<br>
+{% endblock div_row %}
+
+ {% block form_action %}
+<form action="{% url 'create_order' %}" method="POST"> 
+<a id="btn_place_order" href="{% url 'create_order' %}?totalPrice={{totalPrice}} " class="btn">Place An Order</a>
+{% endblock form_action %}
+
+    {% block table_caption %} Items In Cart {% endblock table_caption %}
+
+    {% block table_tr %}
+    <th>Item Name</th>
+    <th>Qty</th>
+    <th>Item Price</th>
+    <th>Published Date</th>
+    <th>Operation</th>
+    {% endblock table_tr %}
+
+    {% block table_tbody %}
+    {% for cart in latest_item_list %}
+    <tr>
+        <td> {{cart.item.item_name}} </td>
+        <td> {{cart.item_qty}} </td>
+        <td> {{cart.item.item_price}} </td>
+        <td> {{cart.modify_date}} </td>
+        <td>
+            <input id="cart_button_{{cart.id}}" type="button" value="Remove The Item" onclick="remove_from_cart(this,{{cart.id}})"> 
+        </td>
+    </tr>
+    {% endfor %}
+    {% endblock table_tbody %}
+
+    {% block total_price %}
+    
+    <br>
+    
+        <br>
+        <div class="row">
+            <label class="col-md-3">The Total Price Is: </label>
+            <input id="total_price" type="text" class="col-md-2 text-center" name="totalPrice" value="{{totalPrice}}" readonly="readonly">
+        </div>
+        <br>
+   
+    {% endblock total_price %}
+
+    {% block jscode %}
+    <script src="/static/add_to_cart.js"> 
+    </script>
+    
+    {% endblock jscode %} 
+
+   
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <title>View The Menu </title>
+    
+</head>
+<body>
+    <div class="container">
+        
+        <h3 class="text-center"> 
+            Choose Your Items
+        </h3>
+        <br>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+              <div class="collapse navbar-collapse" id="my-nav">
+               
+                <ul class="nav navbar-nav navbar-right">
+                  {% if request.session.is_login %} 
+                  <li><a href="#">User Name : {{ request.session.user_name }}</a></li>
+                  <li><a href="{% url 'logout' %}"> Log Out</a></li>
+                  {% else %}
+                  <li><a href="{% url 'login' %}">Log In</a></li>
+                  <li><a href="{% url 'register' %}">Register</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+          </nav>
+        
+        <div class="row">
+            <a href="{% url 'dashboard' %}" class="btn">Return To Dashboard</a>
+            <br>
+            {% if request.session.is_login %}
+            <a id="view_cart" href="{% url 'view_cart' %}" class="btn">View Your Cart</a>
+            <br>
+            <a id="view_orders" href="{% url 'view_user_orders' %}" class="btn">View All Your Orders</a>
+            <br>
+            {% endif %} 
+        </div> -->

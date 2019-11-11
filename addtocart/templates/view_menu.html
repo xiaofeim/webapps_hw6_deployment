@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <title>View The Menu </title>
+    
+</head>
+<body>
+    <div class="container">
+        
+        <h3 class="text-center"> 
+            Choose Your Items
+        </h3>
+        <br>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+              <div class="collapse navbar-collapse" id="my-nav">
+               
+                <ul class="nav navbar-nav navbar-right">
+                  {% if request.session.is_login %} 
+                  <li><a href="#">User Name : {{ request.session.user_name }}</a></li>
+                  <li><a href="{% url 'logout' %}"> Log Out</a></li>
+                  {% else %}
+                  <li><a href="{% url 'login' %}">Log In</a></li>
+                  <li><a href="{% url 'register' %}">Register</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+          </nav>
+        
+        <div class="row">
+            <a href="{% url 'dashboard' %}" class="btn">Return To Dashboard</a>
+            <br>
+            {% if request.session.is_login %}
+            <a id="view_cart" href="{% url 'view_cart' %}" class="btn">View Your Cart</a>
+            <br>
+            <a id="view_orders" href="{% url 'view_user_orders' %}" class="btn">View All Your Orders</a>
+            <br>
+            {% endif %} 
+        </div>
+
+    <div class="table-responsive row">
+        <table class="table table-striped">
+            <caption class="text-center">
+                Choose Your Items
+            </caption>
+            <thead>
+                <tr class="text-center">
+                    <th>Item Picture</th>
+                    <th>Item Name</th>
+                    <th>Item Description</th>
+                    <th>Item Price</th>
+                    <th>Item Qty</th>
+                    {% if request.session.is_login %}
+                    <th>Operation</th>
+                    {% endif %} 
+                </tr>
+            </thead>
+        <tbody>
+        {% for item in latest_item_list %}
+            <tr>
+                <td><img src="/media/{{ item.item_img }}" alt="" height="100" width="110"></td>
+                <td>{{ item.item_name }}</td>
+                <td>{{ item.item_description }}</td>
+                <td>{{ item.item_price }}</td>
+                <td>
+                    <input id="qty_plus" type="button" onclick="minus_qty({{item.id}})" value="-" class="col-md-2">
+                    <input id="item_qty_{{item.id}}" value="1" disabled class="col-md-2">
+                    <input id="qty_plus" type="button" onclick="plus_qty({{item.id}})" value="+" class="col-md-2">
+                </td>
+                {% if request.session.is_login %}
+                <td>
+                    <button id="cart_button_{{item.id}}" onclick="add_to_cart({{item.id}},{{item.item_price}})"> Add To Cart </button>
+                </td>
+                {% endif %} 
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</div>
+
+
+<script src="/static/add_to_cart.js">
+</script>
+
+</body>
+
+
+</html>

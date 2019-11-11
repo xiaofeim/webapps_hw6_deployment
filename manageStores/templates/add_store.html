@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %} Add The Store {% endblock %}
+
+{% block h3 %} Add The Store {% endblock h3 %}
+
+{% block div %}
+<form action="{% url 'add_store' %}" method="POST">
+  {% csrf_token %}
+  <div class="row">
+    <label class="col-md-2">Global Menu </label>
+    {{ form_obj.global_menu }}
+  </div>  
+  <br>
+  <div class="row">
+      <label class="col-md-2">Store Location </label>
+      {{ form_obj.restauran_location }}
+  </div>
+  <br>
+  
+  <div class="row col-md-2">
+    <input id="add_store" class="btn btn-success pull-center" type="submit" name="btn" value="Add">
+  </div>
+
+{% endblock div %}
+
+  
+
+</form>

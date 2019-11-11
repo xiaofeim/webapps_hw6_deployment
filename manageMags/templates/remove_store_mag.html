@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %} Remove Working Locations {% endblock %}
+
+{% block h3 %} Remove Working Locations {% endblock h3 %}
+
+{% block div %}
+
+<form action="{% url 'remove_store_manager' %}?id={{m.id}}" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <label class="col-md-3">Manager ID </label>
+            <input type = "text" class="col-md-8" name="mID" value="{{m.id}}" readonly="readonly">
+        </div>
+        <br>
+        <div class="row">
+            <label class="col-md-3">Manager Name </label>
+            <input type = "text" class="col-md-8" name="mname" value="{{m.m_name}}" readonly="readonly">
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <label class="col-md-3">Remove One Or More Working Location<br></label>
+            
+            <select id="res_mag" name="res" multiple class="col-md-3">
+                {% for store in m.restaurant.all %}
+                <option value='{{ store.id }}'>{{ store.restauran_location}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="row col-md-3">
+            <input id="rem_btn" class="btn btn-success pull-right" type="submit" name ="btn" value="Save And Submit">    
+        </div>    
+    </form>
+
+{% endblock div %}

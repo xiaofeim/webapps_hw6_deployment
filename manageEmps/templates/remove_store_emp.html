@@ -1,0 +1,41 @@
+{% extends "base_emp.html" %}
+
+{% block title %} Remove Working Locations {% endblock %}
+
+{% block h3 %} Remove Working Locations {% endblock h3 %}
+
+
+{% block form_action %} 
+        
+    <form action="{% url 'remove_store_employee' %}?id={{e.id}}" method="POST">
+
+{% endblock form_action %}
+
+
+{% block label1 %}  
+    Employee ID
+{% endblock label1 %}
+{% block input1 %}  
+    <input type="text" class="col-md-8" name="eID" value="{{e.id}}" readonly="readonly">
+{% endblock input1 %}
+    
+
+{% block label2 %} 
+    Employee Name
+{% endblock label2 %}
+{% block field %}  
+    <input type="text" class="col-md-8" name="ename" value="{{e.e_name}}" readonly="readonly">
+{% endblock field %}
+
+{% block div_row1 %}  
+<div class="row">
+    <label class="col-md-3">Remove One Or More Working Location<br></label>
+
+    <select id="res_emp" name="res" multiple class="col-md-3">
+        {% for store in e.restaurant.all %}
+        <option value='{{ store.id }}'> {{ store.restauran_location}}</option>
+        {% endfor %}
+    </select>
+</div>
+{% endblock div_row1 %}
+

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %} Edit The Cart Item {% endblock %}
+
+{% block h3 %} Edit The Cart Item {% endblock h3 %}
+
+{% block div %}
+<form action="{% url 'add_to_cart' %}?id={{item.id}}" method="POST">
+    {% csrf_token %}
+    <div class="row">
+        <label class="col-md-2">View Item Name </label>
+        <input type="text" class="col-md-8" name="itemname" value="{{ item.item_name }}" readonly="readonly">
+    </div>
+    <br>
+    <div class="row">
+        <label class="col-md-2">Item Description</label>
+        <input class="col-md-8" name="itemdes" value="{{ item.item_description }}" readonly="readonly">
+    </div>
+    <br>
+    <div class="row">
+        <label class="col-md-2">View Item Price</label>
+        <input class="col-md-8" name="itemprice" value="{{ item.item_price}}" readonly="readonly">
+    </div>
+    <br>
+    <div class="row">
+        <label class="col-md-2">Enter Item Qty</label>
+        {{ form_obj.item_qty }}
+        <br>
+        <br>
+        <p class="text-danger col-md-8"><strong>{{error_msg}} </strong> </p>
+    </div>
+    <br>
+    <br>
+    <div class="row col-md-2">
+        <input class="btn btn-success pull-center" type="submit" value="Add To Cart">
+    </div>
+</form>
+
+{% endblock div %}

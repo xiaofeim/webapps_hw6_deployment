@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %} Edit The Manager {% endblock %}
+
+{% block h3 %} Edit Manager's infomation and Working Location {% endblock h3 %}
+
+{% block div %}
+<form action="{% url 'add_store_manager' %}?id={{m.id}}" method="POST">
+    {% csrf_token %}
+    <div class="row">
+        <label class="col-md-3">Manager ID </label>
+        <input type="text" class="col-md-8" name="mID" value="{{m.id}}" readonly="readonly">
+        
+    </div>
+    <br>
+    <div class="row">
+        <label class="col-md-3">Manager Name </label>
+        <input type="text" class="col-md-8" name="mname" value="{{m.m_name}}">
+    </div>
+    <br>
+    <div class="row">
+        <label class="col-md-3">Working Location </label>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        {% for store in m.restaurant.all %}
+                        {{store.restauran_location}}<br>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <label class="col-md-3">Add A New Working Location </label>
+        <select id="edit_res_mag" name="res" multiple class="col-md-3">
+            {% for res in store_list %}
+            <option value='{{ res.id }}'> {{ res.restauran_location}}</option>
+            {% endfor %}
+        </select>
+        <p class="text-danger col-md-8"><strong>{{error_msg_location}} </strong> </p>
+
+    </div>
+    <br>
+    <div class="row col-md-3">
+        <input id="submit_msg" class="btn btn-success pull-center" type="submit" name="btn" value="Save And Submit">
+    </div>
+</form>
+
+
+{% endblock div %}

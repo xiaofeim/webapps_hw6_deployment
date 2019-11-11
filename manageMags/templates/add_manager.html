@@ -1,0 +1,50 @@
+{% extends "base_emp.html" %}
+
+{% block title %} Add The Employee {% endblock %}
+
+{% block h3 %} Add A New Employee {% endblock h3 %}
+
+{% block form_action %}
+
+<form action="{% url 'add_manager' %}" method="POST">
+    
+{% endblock form_action %}
+
+{% block label1 %}
+    Manager Name
+{% endblock label1 %}
+{% block input1 %}
+    {{form_obj.m_name}}
+{% endblock input1 %}
+
+
+{% block label2 %}
+    Working Location
+{% endblock label2 %}
+{% block field %}
+    <span class="col-md-3">
+        {{form_obj.restaurant}}
+    </span>
+    <br>
+    <p class="text-danger col-md-8"><strong>{{error_msg}} </strong> </p>
+{% endblock field %}
+
+{% block div_row1 %}  
+    <label class="col-md-2">
+        Employee List
+    </label>
+    <table>
+    <tbody>
+        <tr>
+            <td>
+                {% for e in employee_list %}
+                    {{ e.employee.username}}<br>
+                {% endfor %}
+            </td>
+        </tr>
+    </tbody>
+    </table>
+
+{% endblock div_row1 %}
+
+</form>

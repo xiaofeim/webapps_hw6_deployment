@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %} Create An Order {% endblock %}
+
+{% block h3 %} Create An Order {% endblock h3 %}
+
+{% block div %}
+<div class="row">
+    <a href="{% url 'dashboard' %} " class="btn">Return To The Dashboard</a>
+</div>
+<div>
+    <a href="{% url 'iteminfo' %} " class="btn">Return To The Menu</a>
+</div>
+    <br>
+    <form action="{% url 'create_order' %}" method="POST">
+        {% csrf_token %}
+
+        <div class="row">
+            <label class="col-md-2">Total Price </label>
+            <input type="text" class="col-md-8" name="totalPrice" value="{{totalPrice}}" readonly="readonly">
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <label class="col-md-2">Customer Name </label>
+            <input id="order_name" type="text" class="col-md-8" name="custname" placeholder="Enter Your Name">
+            <p class="text-danger col-md-8"><strong>{{error_msg_customer}} </strong> </p>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <label class="col-md-2">Choose location: </label>
+            <table class="col-md-3">
+                <tbody>
+                    <tr>
+                        <td>
+                            <select name="res">
+                                {% for res in restaurant_list %}
+                                <option value='{{ res.restauran_location }}'>{{ res.restauran_location}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <div class="row col-md-5">
+            <label class="text-danger col-md-10"><strong>{{error_msg_totalprice}} </strong> </label>
+        </div>
+        <br>
+        <br>
+        <div class="row col-md-2">
+            <input id="submit_order" class="btn btn-success pull-center" type="submit" value="Place The Order">
+        </div>
+
+    </form>
+
+
+{% endblock div %}
