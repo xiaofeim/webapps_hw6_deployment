@@ -63,5 +63,7 @@ steps:
   condition: succeededOrFailed()
 
 - script: |
+    git add .
+    git commit -m "pipeline deployment"
     git push https://xiaofeim:$(GITPASS)@xiaofeimhw6.scm.azurewebsites.net/xiaofeimHW6.git master:master
   displayName: 'Deployment'
