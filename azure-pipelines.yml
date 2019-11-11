@@ -49,6 +49,10 @@ steps:
 
 - script: |
     pushd '$(projectRoot)'
+    export DBHOST=$(DBHOST)
+    export DBUSER=$(DBUSER)
+    export DBNAME=$(DBNAME)
+    export DBPASS=$(DBPASS)
     python manage.py test --testrunner xmlrunner.extra.djangotestrunner.XMLTestRunner --no-input
   displayName: 'Run tests'
 
