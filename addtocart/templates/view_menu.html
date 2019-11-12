@@ -72,7 +72,7 @@
                 <td>
                     <input id="qty_plus" type="button" onclick="minus_qty({{item.id}})" value="-" class="col-md-2">
                     <input id="item_qty_{{item.id}}" value="1" disabled class="col-md-2">
-                    <input id="qty_plus" type="button" onclick="plus_qty({{item.id}})" value="+" class="col-md-2">
+                    <input id="qty_minus" type="button" onclick="plus_qty({{item.id}})" value="+" class="col-md-2">
                 </td>
                 {% if request.session.is_login %}
                 <td>
@@ -87,7 +87,83 @@
 </div>
 
 
-<script src="/static/add_to_cart.js">
+<!-- <script src="/static/add_to_cart.js"> -->
+<script>
+    function plus_qty(id) {
+        var item_qty_id = "item_qty_" + id;
+        var old_qty = parseInt(document.getElementById(item_qty_id).value);
+        var new_qty = parseInt(old_qty) + 1;
+        $.ajax({
+            headers: {
+                "X-CSRFToken": $.cookie('csrftoken')
+            },
+            url: '/handle_qty',
+            type: 'POST',
+            data: {
+                'old_qty': old_qty,
+                'new_qty': new_qty,
+            },
+            success: function (arg) {
+                document.getElementById(item_qty_id).value = arg.new_qty;
+            },
+            error: function () {
+                alert("Error")
+            }
+        });
+    }
+    
+    function minus_qty(id) {
+        var item_qty_id = "item_qty_" + id;
+        var old_qty = parseInt(document.getElementById(item_qty_id).value);
+        var new_qty = parseInt(old_qty) - 1;
+        if (new_qty < 0 | new_qty == 0) {
+            alert("Item Qty cannot less than one.");
+            document.getElementById(item_qty_id).value = 1;
+        }
+        else {
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": $.cookie('csrftoken')
+                },
+                url: '/handle_qty',
+                type: 'POST',
+                data: {
+                    'old_qty': old_qty,
+                    'new_qty': new_qty,
+                },
+                success: function (arg) {
+                    document.getElementById(item_qty_id).value = arg.new_qty;
+                },
+                error: function () {
+                    alert("Error")
+                }
+            });
+        }
+    }
+    
+    
+    function add_to_cart(id, price) {
+        var item_qty_id = "item_qty_" + id;
+        var item_qty = document.getElementById(item_qty_id).value;
+        $.ajax({
+            headers: {
+                "X-CSRFToken": $.cookie('csrftoken')
+            },
+            url: '/create_cart',
+            type: 'POST',
+            data: {
+                'item_id': id,
+                'item_qty': item_qty,
+                'price': price,
+            },
+            success: function (arg) {
+                // alert("Add one item into cart!")
+            },
+            error: function () {
+                alert("Error")
+            }
+        });
+    }
 </script>
 
 </body>

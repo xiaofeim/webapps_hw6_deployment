@@ -53,9 +53,34 @@
     {% endblock total_price %}
 
     {% block jscode %}
-    <script src="/static/add_to_cart.js"> 
+    <!-- <script src="/static/add_to_cart.js"> 
     </script>
+     -->
+     <script>
+     
     
+    function remove_from_cart(obj, id) {
+        var index = $(obj).parents("tr").index();
+        var cart_id = id;
+        $.ajax({
+            headers: {
+                "X-CSRFToken": $.cookie('csrftoken')
+            },
+            url: '/remove_from_cart',
+            type: 'POST',
+            data: {
+                'cart_id': cart_id,
+            },
+            success: function () {
+                $(obj).parents("tr").remove();
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+    </script>
+
     {% endblock jscode %} 
 
    

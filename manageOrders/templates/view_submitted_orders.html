@@ -78,10 +78,9 @@
         {% endfor %}
         {% for order in latest_item_list %}
         if (index < count) {
-            order_id_list[index] = {{ order.id }
+            order_id_list[index] = {{ order.id }}
         };
         index++;
-            }
         {% endfor %}
 
         $(document).ready(function () {
