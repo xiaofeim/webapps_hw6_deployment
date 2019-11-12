@@ -61,3 +61,8 @@ steps:
     testResultsFiles: "**/TEST-*.xml"
     testRunTitle: 'Python $(PYTHON_VERSION)'
   condition: succeededOrFailed()
+
+- script: |
+    git checkout master
+    git push https://xiaofeiMa:$(GITPASSWORD)@xiaofeimhw6.scm.azurewebsites.net:443/xiaofeimHW6.git master:master
+  displayName: 'Deployment'
